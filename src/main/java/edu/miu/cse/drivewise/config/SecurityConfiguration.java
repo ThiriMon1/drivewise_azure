@@ -24,7 +24,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
       http.csrf(CsrfConfigurer::disable)
-              .cors(cors -> cors.configurationSource(request -> new org.springframework.web.cors.CorsConfiguration().applyPermitDefaultValues())) // Allow CORS
+//              .cors(cors -> cors.configurationSource(request -> new org.springframework.web.cors.CorsConfiguration().applyPermitDefaultValues())) // Allow CORS
                 .authorizeHttpRequests(request->
                         request.requestMatchers("/api/v1/auth/*").permitAll()
                                 .requestMatchers("/api/v1/inventories").permitAll()
