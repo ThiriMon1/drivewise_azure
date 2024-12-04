@@ -10,8 +10,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // Apply to all endpoints
-                .allowedOrigins("http://localhost:8081", "https://thiriuniprojectweb-frctgxfweugzdpcb.canadacentral-01.azurewebsites.net") // Add allowed origins
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allowed HTTP methods
+                .allowedOrigins("http://localhost:8080","http://localhost:8081", "https://thiriuniprojci.azurewebsites.net") // Add allowed origins
+                .allowedMethods("GET", "POST", "PUT", "PATCH" ,"DELETE", "OPTIONS") // Allowed HTTP methods
                 .allowedHeaders("*") // Allow all headers
                 .allowCredentials(true); // Allow credentials like cookies
     }
