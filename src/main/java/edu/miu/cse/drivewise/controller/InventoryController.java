@@ -37,8 +37,8 @@ public class InventoryController {
     @Value("${prefixdir}")
     private String prefix;
 
+    // Register inventory and save photo in azure blob storage
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    //create inventory and save photo in azure blob storage
     @PostMapping
     public ResponseEntity<InventoryResponseDto> createInventory(@RequestPart("car") @Valid InventoryRequestDto requestDto,
                                                                 @RequestPart("photos") List<MultipartFile> photos) throws IOException {
@@ -55,6 +55,7 @@ public class InventoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(inventoryResponseDtos.get());
     }
 
+    // Update an existing inventory
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{inventoryId}")
     public ResponseEntity<InventoryResponseDto> updateInventory(
@@ -73,6 +74,8 @@ public class InventoryController {
         Optional<InventoryResponseDto> inventoryResponseDtos=inventoryService.updateInventory(inventoryId,requestDto,imageUrls);
         return ResponseEntity.status(HttpStatus.OK).body(inventoryResponseDtos.get());
     }
+
+    // (optional) Register inventory and save photo in local (if you don't use Azure storage blob, photos will be saved in local directory)
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping({"/local"})
     public ResponseEntity<InventoryResponseDto> createInventoryLocal(@RequestPart("car") @Valid InventoryRequestDto requestDto,
@@ -95,6 +98,8 @@ public class InventoryController {
         Optional<InventoryResponseDto> inventoryResponseDtos=inventoryService.registerInventory(requestDto,imageUrls);
         return ResponseEntity.status(HttpStatus.CREATED).body(inventoryResponseDtos.get());
     }
+
+    // (optional) Update an existing inventory and save photo in local (if you don't use Azure storage blob, photos will be saved in local directory)
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping({"/local/{inventoryId}"})
     public ResponseEntity<InventoryResponseDto> updateInventoryLocal(
@@ -119,12 +124,14 @@ public class InventoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(inventoryResponseDtos.get());
     }
 
+    // Get all inventories
     @GetMapping
     public ResponseEntity<List<InventoryResponseDto>> getAllInventories(){
         List<InventoryResponseDto> inventoryResponseDtos =inventoryService.getAllInventories();
         return ResponseEntity.status(HttpStatus.OK).body(inventoryResponseDtos);
     }
 
+    // Get inventories by filter
     @GetMapping("/filter-car")
     public ResponseEntity<List<InventoryResponseDto>> getAllInventoriesWithFilterCar(
             @RequestParam(required = false) String make,
@@ -146,12 +153,15 @@ public class InventoryController {
             return ResponseEntity.status(HttpStatus.OK).body(inventoryResponseDtos);
     }
 
+    // Get inventories by car condition
     @GetMapping("/{car-condition}")
     public ResponseEntity<List<InventoryResponseDto>> getInventoriesByCarCondition(
             @PathVariable(name = "car-condition") String carCondition){
         List<InventoryResponseDto> inventoryResponseDtos = inventoryService.getInventoriesByCarCondition(carCondition);
         return ResponseEntity.status(HttpStatus.OK).body(inventoryResponseDtos);
     }
+
+    // Get inventories by inventory id
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{inventoryId}")
     public ResponseEntity<Void> deleteInventory(@PathVariable Long inventoryId){

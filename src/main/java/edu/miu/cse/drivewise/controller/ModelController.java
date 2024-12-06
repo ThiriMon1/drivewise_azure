@@ -18,6 +18,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ModelController {
     private final CarModelService modelService;
+
+    // Register a car model
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("{makename}")
     public ResponseEntity<CarModelResponseDto> createModel(@PathVariable String makename,
@@ -30,6 +32,7 @@ public class ModelController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
+    // Get car models by car make(brand)
     @GetMapping("/{makename}")
     public ResponseEntity<List<CarModelResponseDto>> getModelsByMakeName(@PathVariable String makename) {
         List<CarModelResponseDto> carModelResponseDtos=modelService.getCarModelsByMakeName(makename);

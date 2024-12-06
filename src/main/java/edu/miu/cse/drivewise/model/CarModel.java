@@ -15,6 +15,7 @@ public class CarModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long modelId;
+    @Column(unique = true, nullable = false)
     private String modelName;
     @OneToMany(mappedBy = "model")
     private List<Inventory> inventories;

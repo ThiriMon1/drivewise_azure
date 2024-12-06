@@ -21,67 +21,63 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public String addToFavorites(Long userId, Long inventoryId) {
+        // Fetch customer, inventory
         Customer customer = getCustomer(userId);
         Inventory inventory = getInventory(inventoryId);
 
-        if(customer!=null && inventory!=null) {
-            if(!customer.getFavoriteInventories().contains(inventory)) {
-                customer.getFavoriteInventories().add(inventory);
-                customerRepository.save(customer);
-                return "Inventory added to Favorites successfully";
-            }else{
-                throw new ResourceNotFoundException("Inventory "+inventoryId+"is already in favorite list");
-            }
-        }else{
-            throw new ResourceNotFoundException("User "+userId+" or Inventory "+inventoryId+" not found");
+        // Add a new favorite to favorite list if inventory is not yet.
+        if (!customer.getFavoriteInventories().contains(inventory)) {
+            customer.getFavoriteInventories().add(inventory);
+            customerRepository.save(customer);
+            return "Inventory added to Favorites successfully";
+        } else {
+            throw new ResourceNotFoundException("Inventory " + inventoryId + "is already in favorite list");
         }
+
 
     }
 
     @Override
     public String removeFromFavorites(Long userId, Long inventoryId) {
+        // Fetch customer, inventory
         Customer customer = getCustomer(userId);
         Inventory inventory = getInventory(inventoryId);
 
-        if(customer!=null && inventory!=null) {
-            if(customer.getFavoriteInventories().contains(inventory)) {
-                customer.getFavoriteInventories().remove(inventory);
-                customerRepository.save(customer);
-                return "Inventory remove from Favorites successfully";
-            }else{
-                throw new ResourceNotFoundException("Inventory "+inventoryId+"is not in favorite list");
-            }
-        }else{
-            throw new ResourceNotFoundException("User "+userId+" or Inventory "+inventoryId+" not found");
+        // Remove a new favorite from favorite list if inventory is existed
+        if (customer.getFavoriteInventories().contains(inventory)) {
+            customer.getFavoriteInventories().remove(inventory);
+            customerRepository.save(customer);
+            return "Inventory remove from Favorites successfully";
+        } else {
+            throw new ResourceNotFoundException("Inventory " + inventoryId + "is not in favorite list");
         }
+
     }
 
     @Override
     public List<FavoriteResponse> getFavorites(Long userId) {
+        // Fetch customer
         Customer customer = getCustomer(userId);
         List<FavoriteResponse> favorites = new ArrayList<>();
-        if(customer!=null) {
-            for(Inventory inventory : customer.getFavoriteInventories()) {
-                favorites.add(mapToFavoriteResponse(inventory));
-            }
-            return favorites;
-        }{
-            throw new ResourceNotFoundException("User "+userId+" not found");
+
+        for (Inventory inventory : customer.getFavoriteInventories()) {
+            favorites.add(mapToFavoriteResponse(inventory));
         }
+        return favorites;
     }
 
     private Customer getCustomer(Long userId) {
-        return customerRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException(userId+" is not found"));
+        return customerRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(userId + " is not found"));
     }
 
     private Inventory getInventory(Long inventoryId) {
-        return inventoryRepository.findById(inventoryId).orElseThrow(()-> new ResourceNotFoundException(inventoryId+" is not found"));
+        return inventoryRepository.findById(inventoryId).orElseThrow(() -> new ResourceNotFoundException(inventoryId + " is not found"));
     }
 
     private FavoriteResponse mapToFavoriteResponse(Inventory inventory) {
         return new FavoriteResponse(
-                inventory.getId(),inventory.getMake().getMakeName(),inventory.getModel().getModelName(),inventory.getYear(),inventory.getMileage(),
-                inventory.getCity().getCityName(),inventory.getState().getStateName(),inventory.getPriceHistory().getLast().getPrice(),inventory.getCurrentPrice(),
-                inventory.getStatus().name(),inventory.getPhotos());
+                inventory.getId(), inventory.getMake().getMakeName(), inventory.getModel().getModelName(), inventory.getYear(), inventory.getMileage(),
+                inventory.getCity().getCityName(), inventory.getState().getStateName(), inventory.getPriceHistory().getLast().getPrice(), inventory.getCurrentPrice(),
+                inventory.getStatus().name(), inventory.getPhotos());
     }
 }

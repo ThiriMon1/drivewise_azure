@@ -19,6 +19,7 @@ import java.util.Optional;
 public class CarReviewController {
     private final CarReviewService carReviewService;
 
+    // Add a car review
     @PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
     @PostMapping
     public ResponseEntity<CarReviewResponseDto> createReview(@RequestBody CarReviewRequestDto carReviewRequestDto) {
@@ -28,6 +29,8 @@ public class CarReviewController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
+
+    // Get all reviews
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<CarReviewResponseDto>> getAllReviews() {
@@ -35,6 +38,7 @@ public class CarReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(carReviewResponseDtos);
     }
 
+    // Get reviews by user
     @PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
     @GetMapping("/user-reviews")
     public ResponseEntity<List<CarReviewResponseDto>> getAllReviewsByUser(
@@ -44,6 +48,7 @@ public class CarReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(carReviewResponseDtos);
     }
 
+    // Get reviews with filter
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/filter-reviews")
     public ResponseEntity<List<CarReviewResponseDto>> getFilteredReviews(
@@ -53,13 +58,13 @@ public class CarReviewController {
     ) {
         List<CarReviewResponseDto> carReviewResponseDtos = new ArrayList<>();
         if (make != null && carModel != null && year != null) {
-            System.out.println("getCarReviewByMakeModelYear");
+
             carReviewResponseDtos=carReviewService.getCarReviewByMakeModelYear(make, carModel, year);
         }else if (make != null && carModel != null) {
-            System.out.println("getCarReviewByMakeModel");
+
             carReviewResponseDtos=carReviewService.getCarReviewByMakeAndModel(make, carModel);
         }else if(make!=null){
-            System.out.println("getCarReviewByMake");
+
             carReviewResponseDtos=carReviewService.getCarReviewByMake(make);
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -68,6 +73,7 @@ public class CarReviewController {
 
     }
 
+    // Update an existing review partially
     @PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
     @PatchMapping("/{reviewid}")
     public ResponseEntity<CarReviewResponseDto> updateReviewPartially(
@@ -78,6 +84,7 @@ public class CarReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(carReviewResponseDto.get());
     }
 
+    // Update an existing review
     @PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
     @PutMapping("/{reviewid}")
     public ResponseEntity<CarReviewResponseDto> updateReview(
@@ -88,6 +95,7 @@ public class CarReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(carReviewResponseDto.get());
     }
 
+    // Delete a existing review
     @PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
     @DeleteMapping("/{reviewid}")
     public ResponseEntity<Void> deleteReview(

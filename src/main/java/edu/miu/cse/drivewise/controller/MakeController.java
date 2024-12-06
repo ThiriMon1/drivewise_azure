@@ -18,6 +18,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MakeController {
     private final MakeService makeService;
+
+    // Register a car make(brand)
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<MakeResponseDto> createMake(
@@ -30,12 +32,14 @@ public class MakeController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
+    // Get all brands(Makes)
     @GetMapping
     public ResponseEntity<List<MakeResponseDto>> getAllMakes() {
         List<MakeResponseDto> makeResponseDtos = makeService.findAllMake();
         return ResponseEntity.status(HttpStatus.OK).body(makeResponseDtos);
     }
 
+    // Get brands by brand name
     @GetMapping("/{makename}")
     public ResponseEntity<MakeResponseDto> getMakeByName(@PathVariable String makename) {
         Optional<MakeResponseDto> makeResponseDto = makeService.findMakeByName(makename);

@@ -1,4 +1,4 @@
-# Car Dealership System
+# Car Dealership System (Student name: Thiri Mon, ID: 616932)
 ## Problem Statement:
 The current manual car dealership system is limited by its dependency on office hours and in-person interactions. This creates obstacles for customers who must visit the dealership to buy cars, often during restricted business hours. As demand for convenience and accessibility increases, there is a need for a digital solution to enhance customer experience and operational efficiency.
 
@@ -47,12 +47,11 @@ The Online Car Dealership System will provide a comprehensive digital platform t
 ## Non-Functional Requirements
   - **Security**: Implement secure authentication and authorization protocols to protect data.
   - **Usability**: Provide clear instructions and guidance throughout the browsing, registration, and transaction processes to ensure a smooth user experience.
-  - **Reliability**: Ensure the system is accessible 24/7, allowing customers to browse and make inquiries or reservations at any time.
-  - **Scalability**: Design the system to handle an increasing number of users, car listings, and transactions as the dealership grows.
-  - **Performance**: Ensure that the platform is optimized for quick load times and efficient searches, with response times within an acceptable range for user actions.
+  - **Reliability**: System is accessible 24/7, allowing customers to browse and make inquiries or reservations at any time.
+  - **Scalability**: System handle an increasing number of users, car listings, and transactions as the dealership grows.
 
 ## Application Architecture
-![image](./artifacts/ApplicationArchitecture.png)
+![image](./artifacts/AppArchi.PNG)
 
 ## Use Case Diagram
 ![image](./artifacts/DW_UseCase.jpg)
@@ -62,5 +61,33 @@ The Online Car Dealership System will provide a comprehensive digital platform t
 
 ## ER Diagram
 ![image](./artifacts/DW_ERD.pgerd.png)
+
+## Project's Setup Instruction
+- Prerequisites
+    - JDK : 21 (Verify installing by running 'java -version')
+    - Ensure Apache Maven is installed for dependency management. (Verify installing by running 'mvn -version')
+    - Database : PostgreSQL
+    - IDE : Ensure it supports Spring Boot and Maven.
+    - Git : Install Git to clone the project repository.
+- Steps to Set Up the Project
+    1. Clone repository
+        - git clone <repository_url>
+        - cd <project_folder>
+    2. Create azure storage blob
+        - ![image](./artifacts/azurestorage1.PNG)
+    3. Create .env file in project directory
+        - set up your jwt key, azure storage account name and key, database url, name, password
+        - ![image](./artifacts/env.PNG)
+    4. Change your Azure Storage container name in application.properties
+        - ![image](./artifacts/azurestorage2.PNG)
+    5. Run the application
+        - run application using your IDE.
+        - Alternatively, build a jar and run it.
+            - mvn clean package
+            - java -jar target/<application-name>.jar
+            - (optionally, you may need to set up environment variable if you run with jar)
+    6. Access the application
+        - http://localhost:8080
+
 
 

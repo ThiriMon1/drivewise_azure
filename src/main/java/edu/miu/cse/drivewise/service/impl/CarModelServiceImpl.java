@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CarModelServiceImpl implements CarModelService {
@@ -25,29 +26,31 @@ public class CarModelServiceImpl implements CarModelService {
 
     @Override
     public Optional<CarModelResponseDto> saveModel(String makename, CarModelRequestDto modelRequestDto) {
-        Make make = makeRepository.findMakeByMakeName(makename).orElseThrow(()->new MakeNotFoundException(makename+ " is not found"));
-        if (make!=null) {
-            CarModel model = modelMapper.modelRequestDtoToModel(modelRequestDto);
-            model.setMake(make);
-            System.out.println("Searching for make: " + model.getMake().getMakeName());
-            modelRepository.save(model);
-            return Optional.of(modelMapper.ModelToModelResponseDto(model));
-        }
-        throw new MakeNotFoundException(makename + " is not found");
+        // Check a car make(brand) is already existed or not
+        Make make = makeRepository.findMakeByMakeName(makename).orElseThrow(() -> new MakeNotFoundException(makename + " is not found"));
+
+        // Save a new car make(brand)
+        CarModel model = modelMapper.modelRequestDtoToModel(modelRequestDto);
+        model.setMake(make);
+
+        modelRepository.save(model);
+        return Optional.of(modelMapper.ModelToModelResponseDto(model));
+
     }
 
     @Override
     public List<CarModelResponseDto> getCarModelsByMakeName(String makename) {
-        List<CarModel> carModels=modelRepository.findCarModelByMake_MakeName(makename);
-        List<CarModelResponseDto> carModelResponseDtos=new ArrayList<>();
-        if(carModels!=null){
-            for(CarModel carModel:carModels){
-                carModelResponseDtos.add(modelMapper.ModelToModelResponseDto(carModel));
-            }
-            return carModelResponseDtos;
+        // Check a car make(brand) is already existed or not
+        makeRepository.findMakeByMakeName(makename).orElseThrow(() -> new MakeNotFoundException(makename + " is not found"));
+
+        // Fetch car models by brand name
+        List<CarModel> carModels = modelRepository.findCarModelByMake_MakeName(makename);
+        List<CarModelResponseDto> carModelResponseDtos = new ArrayList<>();
+
+        for (CarModel carModel : carModels) {
+            carModelResponseDtos.add(modelMapper.ModelToModelResponseDto(carModel));
         }
-        else {
-            throw new MakeNotFoundException(makename + " is not found");
-        }
+        return carModelResponseDtos;
+
     }
 }

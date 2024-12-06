@@ -4,11 +4,13 @@ import edu.miu.cse.drivewise.exception.carReview.CarReviewNotFoundException;
 import edu.miu.cse.drivewise.exception.carcondition.CarConditionNotFoundException;
 import edu.miu.cse.drivewise.exception.carmodel.CarModelNotFoundException;
 import edu.miu.cse.drivewise.exception.customer.CustomerNotFoundException;
+import edu.miu.cse.drivewise.exception.inventory.DuplicateVINException;
 import edu.miu.cse.drivewise.exception.inventory.FailedFiledUpload;
 import edu.miu.cse.drivewise.exception.make.MakeNotFoundException;
 import edu.miu.cse.drivewise.exception.offer.*;
 import edu.miu.cse.drivewise.exception.resourcenotfound.ResourceNotFoundException;
 import edu.miu.cse.drivewise.exception.storageblob.CustomBlobStorageException;
+import edu.miu.cse.drivewise.exception.user.DuplicateEmailException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +59,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(e.getMessage());
     }
 
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<String> handleDuplicateEmailException(DuplicateEmailException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
 
+    @ExceptionHandler(DuplicateVINException.class)
+    public ResponseEntity<String> handleDuplicateVINException(DuplicateVINException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
 
     @ExceptionHandler(MakeNotFoundException.class)
     public ResponseEntity<String> handleMakeNotFoundException(MakeNotFoundException e) {

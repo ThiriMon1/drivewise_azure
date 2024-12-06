@@ -12,7 +12,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest) {
-        System.out.println("register in AuthenticationController");
+
         AuthenticationResponse authenticationResponse=authenticationService.registerCustomer(registerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationResponse);
     }

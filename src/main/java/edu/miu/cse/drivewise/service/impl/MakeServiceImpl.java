@@ -23,8 +23,9 @@ public class MakeServiceImpl implements MakeService {
 
     @Override
     public Optional<MakeResponseDto> saveMake(MakeRequestDto makeRequestDto) {
+        // Map Dto to entity
         Make make = makeMapper.makeRequestDtoToMake(makeRequestDto);
-        System.out.println("Make entity"+ make);
+        // Save
         return Optional.of(makeMapper.makeToMakeResponseDto(makeRepository.save(make)));
     }
 

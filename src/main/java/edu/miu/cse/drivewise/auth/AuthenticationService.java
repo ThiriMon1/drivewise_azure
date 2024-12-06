@@ -1,12 +1,14 @@
 package edu.miu.cse.drivewise.auth;
 
 import edu.miu.cse.drivewise.config.JwtService;
+import edu.miu.cse.drivewise.exception.user.DuplicateEmailException;
 import edu.miu.cse.drivewise.model.Customer;
 import edu.miu.cse.drivewise.repository.CustomerRepository;
 import edu.miu.cse.drivewise.user.Role;
 import edu.miu.cse.drivewise.user.User;
 import edu.miu.cse.drivewise.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,9 +33,17 @@ public class AuthenticationService {
                 passwordEncoder.encode(registerRequest.password()),
                 Role.ADMIN
         );
-        User registeredUser = userRepository.save(user);
-        String token = jwtService.generateToken(registeredUser);
-        return new AuthenticationResponse(token,registerRequest.role().name(),registeredUser.getUserId());
+        try {
+            User registeredUser = userRepository.save(user);
+            String token = jwtService.generateToken(registeredUser);
+            return new AuthenticationResponse(token, registerRequest.role().name(), registeredUser.getUserId());
+        }catch (DataIntegrityViolationException e) {
+            // Check if it's a duplicate email error
+            if (e.getMessage().contains("users_email_key")) {
+                throw new DuplicateEmailException("The email " + user.getEmail() + " is already registered.");
+            }
+            throw e;
+        }
     }
 
     public AuthenticationResponse registerCustomer(RegisterRequest registerRequest){
@@ -44,9 +54,18 @@ public class AuthenticationService {
                 passwordEncoder.encode(registerRequest.password()),
                 registerRequest.role()
         );
-        Customer registeredCustomer = customerRepository.save(customer);
+        try{
+            Customer registeredCustomer = customerRepository.save(customer);
+
         String token = jwtService.generateToken(registeredCustomer);
         return new AuthenticationResponse(token,registerRequest.role().name(),registeredCustomer.getUserId());
+        }catch (DataIntegrityViolationException e){
+            // Check if it's a duplicate email error
+            if (e.getMessage().contains("users_email_key")) {
+                throw new DuplicateEmailException("The email " + customer.getEmail() + " is already registered.");
+            }
+            throw e;
+        }
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest){

@@ -19,6 +19,7 @@ import java.util.Optional;
 public class OfferController {
     private final OfferService offerService;
 
+    // Register an offer
     @PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
     @PostMapping
     public ResponseEntity<OfferResponseDto> createOfferByUser(@RequestParam(name = "userId") Long userId,
@@ -28,6 +29,8 @@ public class OfferController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(offerResponseDto.get());
     }
+
+    // Cancel an offer
     @PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
     @PatchMapping("/{offerId}/user-cancel")
     public ResponseEntity<String> cancelOfferByUser(@RequestParam(name = "userId") Long userId,
@@ -36,6 +39,7 @@ public class OfferController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    // Get all offers
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<OfferResponseDto>> getAllOffer(){
@@ -43,6 +47,7 @@ public class OfferController {
         return ResponseEntity.status(HttpStatus.OK).body(offerResponseDtos);
     }
 
+    // Get offers by specific user
     @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER')")
     @GetMapping("/user-offer")
     public ResponseEntity<List<OfferResponseDto>> getOffersByUser(@RequestParam(name = "userId") Long userId){
@@ -50,6 +55,7 @@ public class OfferController {
         return ResponseEntity.status(HttpStatus.OK).body(offerResponseDtos);
     }
 
+    // Get offers by filter
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping("/offers-filter")
     public ResponseEntity<List<OfferResponseDto>> getOfferListByFilter(
@@ -69,24 +75,32 @@ public class OfferController {
         }
 
     }
+
+    // Accept an offer
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{offerId}/accept")
     public ResponseEntity<OfferResponseDto> acceptOffer(@PathVariable Long offerId){
         Optional<OfferResponseDto> offerResponseDto=offerService.approveOffer(offerId);
         return ResponseEntity.status(HttpStatus.OK).body(offerResponseDto.get());
     }
+
+    // Reject an offer
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{offerId}/reject")
     public ResponseEntity<OfferResponseDto> rejectOffer(@PathVariable Long offerId){
         Optional<OfferResponseDto> offerResponseDto=offerService.rejectOffer(offerId);
         return ResponseEntity.status(HttpStatus.OK).body(offerResponseDto.get());
     }
+
+    // Finalize an offer
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{offerId}/finalize")
     public ResponseEntity<OfferResponseDto> finalizeSale(@PathVariable Long offerId){
         Optional<OfferResponseDto> offerResponseDto=offerService.finalizeSale(offerId);
         return ResponseEntity.status(HttpStatus.OK).body(offerResponseDto.get());
     }
+
+    // Cancel a pending sale offer
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{offerId}/cancel")
     public ResponseEntity<OfferResponseDto> cancelPendingSale(@PathVariable Long offerId){
@@ -94,6 +108,7 @@ public class OfferController {
         return ResponseEntity.status(HttpStatus.OK).body(offerResponseDto.get());
     }
 
+    // Get an offer by offer id
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping("/{offerId}")
     public ResponseEntity<OfferResponseDto> getOfferByOfferId(@PathVariable Long offerId){

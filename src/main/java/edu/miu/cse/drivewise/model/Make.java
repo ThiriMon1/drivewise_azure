@@ -15,7 +15,7 @@ public class Make {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long makeId;
-    @Column(unique=true)
+    @Column(unique = true, nullable = false)
     private String makeName;
     @OneToMany(mappedBy = "make", cascade = CascadeType.PERSIST)
     private List<CarModel> modelList;

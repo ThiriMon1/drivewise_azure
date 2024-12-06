@@ -190,6 +190,7 @@ class InventoryServiceImplTest {
 
     @Test
     void registerInventory_validInput_returnSavedInventory() {
+        when(inventoryRepository.findInventoryByVINAndStatusNot(Mockito.anyString(),eq(Status.SOLD))).thenReturn(Optional.empty());
         when(inventoryMapper.inventoryRequestDtoToInventory(inventoryRequestDto)).thenReturn(inventory);
         when(makeRepository.findMakeByMakeName(Mockito.anyString())).thenReturn(Optional.of(make));
         when(modelRepository.getModelByModelName(Mockito.anyString())).thenReturn(Optional.of(model));

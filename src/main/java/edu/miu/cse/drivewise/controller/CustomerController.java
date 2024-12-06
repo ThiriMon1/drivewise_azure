@@ -16,6 +16,7 @@ import java.util.List;
 public class CustomerController {
     private final CustomerService customerService;
 
+    // Add a favorite to favorite list
     @PostMapping("/{userId}/favorite-lists")
     public ResponseEntity<String> addToFavorites(
             @PathVariable Long userId,
@@ -25,12 +26,14 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
+    // Get all favorites from favorite list
     @GetMapping("/{userId}/favorite-lists")
     public ResponseEntity<List<FavoriteResponse>> getFavorites(@PathVariable Long userId) {
         List<FavoriteResponse> response = customerService.getFavorites(userId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    // Remove a favorite from favorite list
     @DeleteMapping("/{userId}/favorite-lists")
     public ResponseEntity<String> removeFromFavorites(@PathVariable Long userId, @RequestParam(name = "inventoryId") Long inventoryId) {
         String result =customerService.removeFromFavorites(userId,inventoryId);

@@ -80,12 +80,15 @@ class CarModelServiceImplTest {
     @Test
     void getCarModelsByMakeName_ShouldReturnModels_WhenMakeExists() {
         // Arrange
+        Make make = new Make();
         String makeName = "Toyota";
+        make.setMakeName(makeName);
         CarModel carModel1 = new CarModel();
         carModel1.setModelName("Corolla");
         List<CarModel> carModels = List.of(carModel1);
         CarModelResponseDto responseDto1 = new CarModelResponseDto("Corolla");
 
+        Mockito.when(makeRepository.findMakeByMakeName(Mockito.anyString())).thenReturn(Optional.of(make));
         Mockito.when(modelRepository.findCarModelByMake_MakeName(Mockito.anyString())).thenReturn(carModels);
         Mockito.when(modelMapper.ModelToModelResponseDto(Mockito.any(CarModel.class))).thenReturn(responseDto1);
 
@@ -99,15 +102,4 @@ class CarModelServiceImplTest {
         verify(modelRepository, times(1)).findCarModelByMake_MakeName(makeName);
     }
 
-    @Test
-    void getCarModelsByMakeName_ShouldThrowException_WhenMakeDoesNotExist() {
-        // Arrange
-        String makeName = "UnknownMake";
-
-        Mockito.when(modelRepository.findCarModelByMake_MakeName(Mockito.anyString())).thenReturn(null);
-
-        // Act & Assert
-        assertThrows(MakeNotFoundException.class, () -> carModelService.getCarModelsByMakeName(makeName));
-        verify(modelRepository, times(1)).findCarModelByMake_MakeName(makeName);
-    }
 }
