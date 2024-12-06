@@ -66,7 +66,7 @@ The Online Car Dealership System will provide a comprehensive digital platform t
 - Prerequisites
     - JDK : 21 (Verify installing by running 'java -version')
     - Ensure Apache Maven is installed for dependency management. (Verify installing by running 'mvn -version')
-    - Database : PostgreSQL
+    - Database : PostgreSQL (optional)(if you use docker or azure, you don't need to install)
     - IDE : Ensure it supports Spring Boot and Maven.
     - Git : Install Git to clone the project repository.
 - Steps to Set Up the Project
