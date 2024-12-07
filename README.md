@@ -90,6 +90,7 @@ The Online Car Dealership System will provide a comprehensive digital platform t
             - (optionally, you may need to set up environment variable if you run with jar)
     6. Access the application
         - http://localhost:8080
-## Here is the video link for CI/CD evidence
+## Here is the demo link (include CI/CD pipeline and cloud deploy)
+- ![Demo](./artifacts/CICDandDeployCloud.mp4)
 
 
