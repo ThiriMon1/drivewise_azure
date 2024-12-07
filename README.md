@@ -1,4 +1,4 @@
-# DriveWise Car Dealership System (Student name: Thiri Mon, ID: 616932)
+# DriveWise Car Dealership System (Author : Thiri Mon, ID: 616932)
 ## Problem Statement:
 The current manual car dealership system is limited by its dependency on office hours and in-person interactions. This creates obstacles for customers who must visit the dealership to buy cars, often during restricted business hours. As demand for convenience and accessibility increases, there is a need for a digital solution to enhance customer experience and operational efficiency.
 
@@ -90,6 +90,6 @@ The Online Car Dealership System will provide a comprehensive digital platform t
             - (optionally, you may need to set up environment variable if you run with jar)
     6. Access the application
         - http://localhost:8080
-
+## Here is the video link for CI/CD evidence
 
 
