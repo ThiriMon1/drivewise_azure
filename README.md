@@ -49,6 +49,8 @@ The Online Car Dealership System will provide a comprehensive digital platform t
   - **Usability**: Provide clear instructions and guidance throughout the browsing, registration, and transaction processes to ensure a smooth user experience.
   - **Reliability**: System is accessible 24/7, allowing customers to browse and make inquiries or reservations at any time.
   - **Scalability**: System handle an increasing number of users, car listings, and transactions as the dealership grows.
+  - **CI/CD pipeline**: System automate the build, testing, and deployment processes using GitHub Actions tool for seamless integration and delivery of updates.
+  - **Deploy in Cloud**: System utilize Azure cloud platform for hosting, leveraging their scalability, reliability, and ease of deployment features.
 
 ## Application Architecture
 ![image](./artifacts/AppArchi.PNG)
