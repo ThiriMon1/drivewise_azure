@@ -18,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-        # Step 2: Set up Java JDK
+      # Step 2: Set up Java JDK
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
@@ -27,7 +27,7 @@ jobs:
 
         # Step 3: Build the JAR file
       - name: Build the application
-        run: mvn clean package -DskipTests=true
+        run: mvn clean package
 
         # Step 4: Log in to Docker Hub
       - name: Log in to Docker Hub
