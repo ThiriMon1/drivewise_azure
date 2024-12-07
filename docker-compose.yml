@@ -15,7 +15,7 @@ services:
 #      retries: 3
 
   web:
-    image: 'thirimon/drivewise-web:1.0.4'
+    image: 'thirimon/drivewise-web:3'
     env_file:
       - .env
     build:

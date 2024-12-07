@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://index.docker.io/v1/
-        username: ${{ secrets.AzureAppService_ContainerUsername_2ac6adea83ff4bffb9f72e7a67eb82bf }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_06e2ee1c920649afa80a6f26a42384d6 }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_2ef44829d3d6428587f733df98d123c0 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_a2411424b72c406da7683deb396f9b97 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_2ac6adea83ff4bffb9f72e7a67eb82bf }}/thirimon/drivewise-web:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_2ef44829d3d6428587f733df98d123c0 }}/thirimon/drivewise-web:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'thirimonuniproj1'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_08bb9cd34f084e3eadcdf37161a12f66 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_2ac6adea83ff4bffb9f72e7a67eb82bf }}/thirimon/drivewise-web:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_4626666b92334fbdacbcd3277d621073 }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_2ef44829d3d6428587f733df98d123c0 }}/thirimon/drivewise-web:${{ github.run_number }}'

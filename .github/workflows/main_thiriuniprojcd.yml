@@ -69,7 +69,7 @@ jobs:
     needs: build
     environment:
       name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+#      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
     - name: Deploy to Azure Web App
@@ -80,4 +80,4 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_fa53aa112f0641c4aff4fab2aed9fa54 }}
         images: 'thirimon/drivewise-web:${{ github.run_number }}'
-#        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_c75b03715fad4e7ea778225afcb7b526 }}/thirimon/drivewise-web:${{ github.sha }}'
+#        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_c75b03715fad4e7ea778225afcb7b526 }}/thirimon/drivewise-web:${{ github.run_number }}'
