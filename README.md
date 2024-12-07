@@ -91,6 +91,6 @@ The Online Car Dealership System will provide a comprehensive digital platform t
     6. Access the application
         - http://localhost:8080
 ## Here is the demo link (include CI/CD pipeline and cloud deploy)
-- ![Demo](./artifacts/CICDandDeployCloud.mp4)
+- https://mum0-my.sharepoint.com/:f:/r/personal/tmon_miu_edu/Documents/ThiriMon_ApSDprojectDemo?csf=1&web=1&e=rDc2td
 
 
